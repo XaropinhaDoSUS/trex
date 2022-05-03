@@ -27,17 +27,19 @@ function setup()
 function draw()
 {  
   background("black");
-  if (keyDown("space")) {    
+  if (keyDown("space") && trex.y >= 100) {    
     trex.velocityY = -10;  
   }
+  
 
   console.log(ground.x);
 
-  trex.velocityY = trex.velocityY + 0.5;trex.collide(edges[3]);
+  trex.velocityY = trex.velocityY + 0.5;
+  trex.collide(ground);
 
   if (ground.x < 0) {
     ground.x = ground.width / 2;
   }
   
   drawSprites();
-}
+} 
