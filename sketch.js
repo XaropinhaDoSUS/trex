@@ -1,25 +1,20 @@
 var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
-var nuvem
-
-
-
+var cloud, cloudImg;
 var score;
 
 
 function preload(){
-  trex_running = loadAnimation("trex1.png","trex2.png","trex3.png");
+  trex_running = loadAnimation("trex1.png", "trex2.png", "trex3.png");
   trex_collided = loadImage("trex_collided.png");
   
   groundImage = loadImage("ground2.png");
-  nuvem=loadImage("cloud.png")
- 
-  
+  cloudImg=loadImage("cloud.png");
 }
 
 function setup() {
 
-  createCanvas(600,200)
+  createCanvas(600,200);
   
   //crie um sprite de trex
   trex = createSprite(50,160,20,50);
@@ -36,26 +31,22 @@ function setup() {
   invisibleGround = createSprite(200,190,400,10);
   invisibleGround.visible = false;
   
-  //gerar nÃºmeros aleatÃ³rios
-  var rand =  Math.round(random(1,100))
+  //gerar números aleatórios
+  var rand =  Math.round(random(1,100));
   console.log(rand)
 
 }
 
 function draw() {
   //definir cor do plano de fundo
-  background(180);
+  background("black");
   
-  console.log(trex.y)
-  
-  
-  
-  // pulando o trex ao pressionar a tecla de espaÃ§o
+  // pulando o trex ao pressionar a tecla de espaço
   if(keyDown("space")&& trex.y >= 100) {
     trex.velocityY = -10;
   }
   
-  trex.velocityY = trex.velocityY + 0.8
+  trex.velocityY = trex.velocityY + 0.8;
   
   if (ground.x < 0){
     ground.x = ground.width/2;
@@ -65,24 +56,24 @@ function draw() {
   trex.collide(invisibleGround);
   
   //Gerar Nuvens
-  spawnClouds()
+  spawnClouds();
   
 
   drawSprites();
 }
 
-//funÃ§Ã£o para gerar as nuvens
+  //função para gerar as nuvens
 function spawnClouds(){
- //escreva seu cÃ³digo aqui
- if(frameCount%60===0){
-  cloud=createSprite(600,100,40,10)
-  cloud.addImage(nuvem)
-  cloud.y=Math.round(random(10,80))
-  cloud.scale=0.55
-  cloud.velocityX=-3
- }
- 
+  //escreva seu código aqui
+  if(frameCount % 60 === 0){
+    cloud = createSprite(600,100,40,10);
+    cloud.addImage(cloudImg);
+    cloud.y = Math.round(random(10,80));
+    cloud.scale = 0.55;
+    cloud.velocityX = -3;
+  }
 }
 
+function spawnCactos() {
 
-
+}
