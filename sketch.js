@@ -54,7 +54,7 @@ function draw() {
   if (gameState === PLAY) {
     // se o jogo estiver rolando
     
-    // pulando o trex ao pressionar a tecla de espaço
+    // pulando o trex ao pressionar a tecla de espaï¿½o
     if(keyDown("space")&& trex.y >= 100) {
       trex.velocityY = -10;
     }
@@ -62,7 +62,7 @@ function draw() {
     // efeito gravidade para o pulo
     trex.velocityY = trex.velocityY + 0.8;
 
-    // faz o chão repetir
+    // faz o chï¿½o repetir
     if (ground.x < 0){
       ground.x = ground.width/2;
     }
@@ -72,10 +72,17 @@ function draw() {
 
     // criar os cactos
     spawnCactos();
+    if (cactoGroup.isTouching(trex)){
+      gameState = END;
+    }
+    
 
   } else if (gameState === END) {
     // se o jogador morreu
     ground.velocityX = 0;
+    cloudGroup.setVelocityXEach(0);
+    cactoGroup.setVelocityXEach(0)
+    
   }
   
   
