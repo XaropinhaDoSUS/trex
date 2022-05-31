@@ -2,9 +2,11 @@ var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
 var cloud, cloudImg;
 var score;
-
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
-
+const PLAY = 1;
+const END = 0;
+var gameState = PLAY;
+var cloudGroup, cactoGroup;
 
 
 function preload(){
@@ -20,7 +22,6 @@ function preload(){
   cacto4=loadImage("obstacle4.png");
   cacto5=loadImage("obstacle5.png");
   cacto6=loadImage("obstacle6.png");
-
 }
 
 function setup() {
@@ -42,53 +43,65 @@ function setup() {
   invisibleGround = createSprite(200,190,400,10);
   invisibleGround.visible = false;
   
-  //gerar nï¿½meros aleatï¿½rios
-  var rand =  Math.round(random(1,100));
-  console.log(rand)
-
+  cloudGroup = new Group();
+  cactoGroup = new Group();
 }
 
 function draw() {
   //definir cor do plano de fundo
   background("black");
   
-  // pulando o trex ao pressionar a tecla de espaï¿½o
-  if(keyDown("space")&& trex.y >= 100) {
-    trex.velocityY = -10;
+  if (gameState === PLAY) {
+    // se o jogo estiver rolando
+    
+    // pulando o trex ao pressionar a tecla de espaço
+    if(keyDown("space")&& trex.y >= 100) {
+      trex.velocityY = -10;
+    }
+
+    // efeito gravidade para o pulo
+    trex.velocityY = trex.velocityY + 0.8;
+
+    // faz o chão repetir
+    if (ground.x < 0){
+      ground.x = ground.width/2;
+    }
+
+    // criar as nuvens
+    spawnClouds();
+
+    // criar os cactos
+    spawnCactos();
+
+  } else if (gameState === END) {
+    // se o jogador morreu
+    ground.velocityX = 0;
   }
   
-  trex.velocityY = trex.velocityY + 0.8;
-  
-  if (ground.x < 0){
-    ground.x = ground.width/2;
-  }
   
   //impedir que o trex caia
   trex.collide(invisibleGround);
-  
-  //Gerar Nuvens
-  spawnClouds();
-  spawnCactos();
 
   drawSprites();
 }
 
-  //funï¿½ï¿½o para gerar as nuvens
+  //funcao para gerar as nuvens
 function spawnClouds(){
-  //escreva seu cï¿½digo aqui
+  //escreva seu codigo aqui
   if(frameCount % 60 === 0){
     cloud = createSprite(600,100,40,10);
     cloud.addImage(cloudImg);
     cloud.y = Math.round(random(10,80));
     cloud.scale = 0.55;
     cloud.velocityX = -3;
+    cloudGroup.add(cloud);
   }
 }
 
 function spawnCactos() {
   if(frameCount % 60 === 0){
     
-    var cacto=createSprite(400,165,10,40);
+    var cacto=createSprite(600,165,10,40);
     cacto.velocityX= -6;
     cacto.scale= 0.5;
     var rand = Math.round(random(1,6));
@@ -113,6 +126,8 @@ function spawnCactos() {
         cacto.addImage(cacto6);
         break;
     }
+
+    cactoGroup.add(cacto);
   }
 
 }
