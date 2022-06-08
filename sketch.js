@@ -1,12 +1,13 @@
 var trex, trex_running, trex_collided;
 var ground, invisibleGround, groundImage;
 var cloud, cloudImg;
-var score;
+var score = 0;
 var cacto1, cacto2, cacto3, cacto4, cacto5, cacto6;
 const PLAY = 1;
 const END = 0;
 var gameState = PLAY;
 var cloudGroup, cactoGroup;
+var restart, restartImg, gameOver, gameOverImg;
 
 
 function preload(){
@@ -22,6 +23,9 @@ function preload(){
   cacto4=loadImage("obstacle4.png");
   cacto5=loadImage("obstacle5.png");
   cacto6=loadImage("obstacle6.png");
+
+  restartImg = loadImage("restart.png");
+  gameOverImg = loadImage("gameOver.png");
 }
 
 function setup() {
@@ -31,6 +35,7 @@ function setup() {
   //crie um sprite de trex
   trex = createSprite(50,160,20,50);
   trex.addAnimation("running", trex_running);
+  trex.addAnimation("collided", trex_collided);
   trex.scale = 0.5;
   
   //crie sprite ground (solo)
@@ -45,17 +50,24 @@ function setup() {
   
   cloudGroup = new Group();
   cactoGroup = new Group();
+
+  restart = createSprite(300, 140);
+
+  gameOver = createSprite(300, 100);
 }
 
 function draw() {
   //definir cor do plano de fundo
   background("black");
+  text('Score: ' + score, 500, 20);
   
   if (gameState === PLAY) {
     // se o jogo estiver rolando
+
+    score = score + Math.round(frameCount/60);
     
     // pulando o trex ao pressionar a tecla de espa�o
-    if(keyDown("space")&& trex.y >= 100) {
+    if(keyDown("space") && trex.y >= 100) {
       trex.velocityY = -10;
     }
 
@@ -76,13 +88,16 @@ function draw() {
       gameState = END;
     }
     
-
   } else if (gameState === END) {
     // se o jogador morreu
     ground.velocityX = 0;
+    trex.changeAnimation("collided");
+
     cloudGroup.setVelocityXEach(0);
     cactoGroup.setVelocityXEach(0)
     
+    cloudGroup.setLifetimeEach(-1);
+    cactoGroup.setLifetimeEach(-1);
   }
   
   
@@ -101,6 +116,7 @@ function spawnClouds(){
     cloud.y = Math.round(random(10,80));
     cloud.scale = 0.55;
     cloud.velocityX = -3;
+    cloud.lifetime = 200;
     cloudGroup.add(cloud);
   }
 }
@@ -133,7 +149,7 @@ function spawnCactos() {
         cacto.addImage(cacto6);
         break;
     }
-
+    cacto.lifetime = 150;
     cactoGroup.add(cacto);
   }
 
