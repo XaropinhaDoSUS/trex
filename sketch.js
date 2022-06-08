@@ -52,8 +52,14 @@ function setup() {
   cactoGroup = new Group();
 
   restart = createSprite(300, 140);
-
+   restart.addImage("restart",restartImg);
+  restart.scale=0.5;
+  restart.visible= false; 
   gameOver = createSprite(300, 100);
+  gameOver.addImage("gameOver", gameOverImg);
+  gameOver.scale=0.5;
+  gameOver.visible= false;
+
 }
 
 function draw() {
@@ -92,6 +98,8 @@ function draw() {
     // se o jogador morreu
     ground.velocityX = 0;
     trex.changeAnimation("collided");
+    restart.visible=true;
+    gameOver.visible=true;
 
     cloudGroup.setVelocityXEach(0);
     cactoGroup.setVelocityXEach(0)
