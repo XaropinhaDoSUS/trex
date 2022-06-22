@@ -51,8 +51,9 @@ function setup() {
   cloudGroup = new Group();
   cactoGroup = new Group();
 
+  // imagens para reiniciar o jogo
   restart = createSprite(300, 140);
-   restart.addImage("restart",restartImg);
+  restart.addImage("restart",restartImg);
   restart.scale=0.5;
   restart.visible= false; 
   gameOver = createSprite(300, 100);
@@ -90,6 +91,7 @@ function draw() {
 
     // criar os cactos
     spawnCactos();
+    
     if (cactoGroup.isTouching(trex)){
       gameState = END;
     }
@@ -106,6 +108,11 @@ function draw() {
     
     cloudGroup.setLifetimeEach(-1);
     cactoGroup.setLifetimeEach(-1);
+
+    // condicao se o mouse clicar na imagem
+    if (mousePressedOver(restart)) {
+      reset();
+    }
   }
   
   
@@ -113,6 +120,10 @@ function draw() {
   trex.collide(invisibleGround);
 
   drawSprites();
+}
+
+function reset() {
+  console.log("reiniciar");
 }
 
   //funcao para gerar as nuvens
@@ -135,6 +146,7 @@ function spawnCactos() {
     var cacto=createSprite(600,165,10,40);
     cacto.velocityX= -6;
     cacto.scale= 0.5;
+    // numero aleatorio dos cactos
     var rand = Math.round(random(1,6));
   
     switch (rand) {
