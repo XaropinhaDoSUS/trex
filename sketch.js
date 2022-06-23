@@ -30,6 +30,7 @@ function preload(){
 
   jumpSound = loadSound("jump.mp3");
   dieSound = loadSound("collided.wav");
+  checkpointSound=loadSound("checkpoint.wav")
 }
 
 function setup() {
@@ -76,6 +77,10 @@ function draw() {
     // se o jogo estiver rolando
 
     score = score + Math.round(frameCount/60);
+
+    if(score>0 && score%100===0){
+      checkpointSound.play();
+    }
     
     ground.velocityX = -4;
     // pulando o trex ao pressionar a tecla de espa�o
