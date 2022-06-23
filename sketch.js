@@ -42,7 +42,7 @@ function setup() {
   ground = createSprite(200,180,400,20);
   ground.addImage("ground",groundImage);
   ground.x = ground.width /2;
-  ground.velocityX = -4;
+
   
   //crie um solo invisível
   invisibleGround = createSprite(200,190,400,10);
@@ -73,6 +73,7 @@ function draw() {
 
     score = score + Math.round(frameCount/60);
     
+    ground.velocityX = -4;
     // pulando o trex ao pressionar a tecla de espa�o
     if(keyDown("space") && trex.y >= 100) {
       trex.velocityY = -10;
@@ -123,7 +124,13 @@ function draw() {
 }
 
 function reset() {
-  console.log("reiniciar");
+  score=0
+  gameState= PLAY;
+  restart.visible=false;
+  gameOver.visible=false;
+  cloudGroup.destroyEach();
+  cactoGroup.destroyEach();
+  trex.changeAnimation("running");
 }
 
   //funcao para gerar as nuvens
@@ -172,5 +179,4 @@ function spawnCactos() {
     cacto.lifetime = 150;
     cactoGroup.add(cacto);
   }
-
 }
