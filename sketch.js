@@ -8,6 +8,7 @@ const END = 0;
 var gameState = PLAY;
 var cloudGroup, cactoGroup;
 var restart, restartImg, gameOver, gameOverImg;
+var jumpSound, checkpointSound, dieSound;
 
 
 function preload(){
@@ -26,6 +27,9 @@ function preload(){
 
   restartImg = loadImage("restart.png");
   gameOverImg = loadImage("gameOver.png");
+
+  jumpSound = loadSound("jump.mp3");
+  dieSound = loadSound("collided.wav");
 }
 
 function setup() {
@@ -77,6 +81,7 @@ function draw() {
     // pulando o trex ao pressionar a tecla de espa�o
     if(keyDown("space") && trex.y >= 100) {
       trex.velocityY = -10;
+      jumpSound.play();
     }
 
     // efeito gravidade para o pulo
@@ -95,6 +100,7 @@ function draw() {
     
     if (cactoGroup.isTouching(trex)){
       gameState = END;
+      dieSound.play();
     }
     
   } else if (gameState === END) {
